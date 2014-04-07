@@ -30,7 +30,7 @@ get '/stuff' do
 
 end
 
-get '/treemap' do
+get '/treemap.json' do
   content_type :json
   File.read("public/liquor.json")
 end
