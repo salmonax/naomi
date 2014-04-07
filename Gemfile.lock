@@ -3,8 +3,12 @@ GEM
   specs:
     addressable (2.3.6)
     daemons (1.1.9)
+    dropbox-sdk (1.6.3)
+      json
     eventmachine (1.0.3)
     excon (0.32.1)
+    haml (4.0.5)
+      tilt
     heroku (3.6.0)
       heroku-api (~> 0.3.17)
       launchy (>= 0.3.2)
@@ -14,6 +18,7 @@ GEM
     heroku-api (0.3.18)
       excon (~> 0.27)
       multi_json (~> 1.8)
+    json (1.8.1)
     launchy (2.4.2)
       addressable (~> 2.3)
     mime-types (2.2)
@@ -24,7 +29,7 @@ GEM
       rack
     rest-client (1.6.7)
       mime-types (>= 1.16)
-    rubyzip (1.1.2)
+    rubyzip (1.1.3)
     sinatra (1.4.4)
       rack (~> 1.4)
       rack-protection (~> 1.4)
@@ -39,6 +44,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  dropbox-sdk
+  haml
   heroku
   sinatra
   thin
