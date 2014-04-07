@@ -14,7 +14,7 @@ APP_SECRET = 'qun1od558x53qd8'
 #   "HELLO!"
 # end
 
-get '/' do
+get '/the_dropbox_path' do
   dropbox_session = DropboxSession.new(APP_KEY,APP_SECRET)
   dropbox_session.get_request_token
   session[:dropbox] = dropbox_session.serialize()
