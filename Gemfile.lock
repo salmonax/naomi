@@ -47,5 +47,6 @@ DEPENDENCIES
   dropbox-sdk
   haml
   heroku
+  json
   sinatra
   thin
