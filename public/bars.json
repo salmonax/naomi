@@ -1,0 +1,202 @@
+[
+  {
+    "date":"2008-Q1",
+    "RAILS":339,
+    "FITNESS":345,
+    "HACKER LAB":186,
+    "WHATEVER":130,
+    "SOMETHING ELSE":233
+  },
+  {
+    "date":"2008-Q2",
+    "RAILS":197,
+    "FITNESS":272,
+    "HACKER LAB":169,
+    "WHATEVER":145,
+    "SOMETHING ELSE":197
+  },
+  {
+    "date":"2020-Q2",
+    "RAILS":900,
+    "FITNESS":272,
+    "HACKER LAB":169,
+    "WHATEVER":145,
+    "SOMETHING ELSE":197
+  },
+  {
+    "date":"2008-Q3",
+    "RAILS":163,
+    "FITNESS":207,
+    "HACKER LAB":140,
+    "WHATEVER":108,
+    "SOMETHING ELSE":151
+  },
+  {
+    "date":"2008-Q4",
+    "RAILS":120,
+    "FITNESS":166,
+    "HACKER LAB":128,
+    "WHATEVER":86,
+    "SOMETHING ELSE":188
+  },
+  {
+    "date":"2009-Q1",
+    "RAILS":320,
+    "FITNESS":203,
+    "HACKER LAB":123,
+    "WHATEVER":121,
+    "SOMETHING ELSE":245
+  },
+  {
+    "date":"2009-Q2",
+    "RAILS":225,
+    "FITNESS":145,
+    "HACKER LAB":105,
+    "WHATEVER":123,
+    "SOMETHING ELSE":208
+  },
+  {
+    "date":"2009-Q3",
+    "RAILS":237,
+    "FITNESS":157,
+    "HACKER LAB":112,
+    "WHATEVER":98,
+    "SOMETHING ELSE":278
+  },
+  {
+    "date":"2009-Q4",
+    "RAILS":190,
+    "FITNESS":231,
+    "HACKER LAB":146,
+    "WHATEVER":109,
+    "SOMETHING ELSE":569
+  },
+  {
+    "date":"2010-Q1",
+    "RAILS":447,
+    "FITNESS":288,
+    "HACKER LAB":164,
+    "WHATEVER":116,
+    "SOMETHING ELSE":981
+  },
+  {
+    "date":"2010-Q2",
+    "RAILS":309,
+    "FITNESS":230,
+    "HACKER LAB":135,
+    "WHATEVER":159,
+    "SOMETHING ELSE":893
+  },
+  {
+    "date":"2010-Q3",
+    "RAILS":339,
+    "FITNESS":262,
+    "HACKER LAB":144,
+    "WHATEVER":131,
+    "SOMETHING ELSE":891
+  },
+  {
+    "date":"2010-Q4",
+    "RAILS":322,
+    "FITNESS":283,
+    "HACKER LAB":118,
+    "WHATEVER":148,
+    "SOMETHING ELSE":835
+  },
+  {
+    "date":"2011-Q1",
+    "RAILS":622,
+    "FITNESS":321,
+    "HACKER LAB":165,
+    "WHATEVER":150,
+    "SOMETHING ELSE":937
+  },
+  {
+    "date":"2011-Q2",
+    "RAILS":497,
+    "FITNESS":326,
+    "HACKER LAB":146,
+    "WHATEVER":147,
+    "SOMETHING ELSE":887
+  },
+  {
+    "date":"2011-Q3",
+    "RAILS":642,
+    "FITNESS":372,
+    "HACKER LAB":165,
+    "WHATEVER":136,
+    "SOMETHING ELSE":752
+  },
+  {
+    "date":"2011-Q4",
+    "RAILS":602,
+    "FITNESS":354,
+    "HACKER LAB":152,
+    "WHATEVER":109,
+    "SOMETHING ELSE":721
+  },
+  {
+    "date":"2012-Q1",
+    "RAILS":892,
+    "FITNESS":375,
+    "HACKER LAB":135,
+    "WHATEVER":146,
+    "SOMETHING ELSE":808
+  },
+  {
+    "date":"2012-Q2",
+    "RAILS":728,
+    "FITNESS":376,
+    "HACKER LAB":152,
+    "WHATEVER":151,
+    "SOMETHING ELSE":819
+  },
+  {
+    "date":"2012-Q3",
+    "RAILS":794,
+    "FITNESS":354,
+    "HACKER LAB":118,
+    "WHATEVER":143,
+    "SOMETHING ELSE":771
+  },
+  {
+    "date":"2012-Q4",
+    "RAILS":730,
+    "FITNESS":320,
+    "HACKER LAB":123,
+    "WHATEVER":125,
+    "SOMETHING ELSE":715
+  },
+  {
+    "date":"2013-Q1",
+    "RAILS":1053,
+    "FITNESS":404,
+    "HACKER LAB":147,
+    "WHATEVER":144,
+    "SOMETHING ELSE":608
+  },
+  {
+    "date":"2013-Q2",
+    "RAILS":925,
+    "FITNESS":502,
+    "HACKER LAB":166,
+    "WHATEVER":140,
+    "SOMETHING ELSE":733
+  },
+  {
+    "date":"2013-Q3",
+    "RAILS":986,
+    "FITNESS":576,
+    "HACKER LAB":202,
+    "WHATEVER":175,
+    "SOMETHING ELSE":596
+  },
+  {
+    "date":"2013-Q4",
+    "RAILS":693,
+    "FITNESS":506,
+    "HACKER LAB":198,
+    "WHATEVER":161,
+    "SOMETHING ELSE":1015
+  }
+]

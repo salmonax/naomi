@@ -1,0 +1,30 @@
+!!! 5
+%html
+  %head
+    %title Naomi Desktop, by G.A. Michel
+
+    %link{href:'http://fonts.googleapis.com/css?family=Share+Tech+Mono',     
+      rel:'stylesheet', 
+      type:'text/css'}
+
+    %link{rel:"stylesheet",
+          href:"/stylesheets/jquery-ui-1.10.4.css"}
+    %script{src:"/javascripts/jquery-1.11.0.js"}
+    %script{src:"/javascripts/jquery-ui-1.10.4.js"}
+    %script{src:"/javascripts/d3.js"}
+
+    %link{ rel:"stylesheet", href:"/stylesheets/naomi.css"}
+
+    %link{ rel: "stylesheet", href:"stylesheets/"}
+    %script{src:"/javascripts/ace/ace.js"}
+
+  %body
+    %p#chart.draggable
+
+    #meter.draggable.bk-charcoal.mk-fuschia
+      %h1=meter
+
+    #editor.resizable.draggable= pom_sheet
+
+    %script{src:"/javascripts/naomi.js"}
+

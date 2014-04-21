@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href ="styles/cal-heatmap.css" media="screen"/>
+    <script type="text/javascript" src="http://mbostock.github.com/d3/d3.js"></script>
+    <script type="text/javascript" src="cal-heatmap.min.js"></script>
+</head>
+<body>
+    <!--a href="calendar.html">Go to Calendar</a-->
+    <div id="cal-heatmap"></div>
+    <br><br>
+    <script type="text/javascript">
+        var calendar = new CalHeatMap();
+        calendar.init({
+            data: "d3_data.json",
+            start: new Date(2014, 1),
+            id : "graph_f",
+            domain : "month",
+            subDomain : "hour",
+            rowLimit : 24,
+            scale: [1,1,2,2],
+            range : 3,
+            cellSize: 7,
+            cellpadding: 1
+        });
+    </script>
+    <div id="viz"></div>
+    <script type="text/javascript">
+        d3.text("output.csv", function(datasetText) {
+
+        var parsedCSV = d3.csv.parseRows(datasetText);
+
+        var sampleHTML = d3.select("#viz")
+            .append("table")
+            .style("border-collapse", "collapse")
+            .style("border", "2px black solid")
+
+            .selectAll("tr")
+            .data(parsedCSV)
+            .enter().append("tr")
+
+            .selectAll("td")
+            .data(function(d){return d;})
+            .enter().append("td")
+            .style("border", "1px black solid")
+            .style("padding", "5px")
+            .on("mouseover", function(){d3.select(this).style("background-color", "aliceblue")})
+            .on("mouseout", function(){d3.select(this).style("background-color", "white")})
+            .text(function(d){return d;})
+            .style("font-size", "12px");
+        });
+    </script>
+</body>
+</html>

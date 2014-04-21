@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href ="styles/cal-heatmap.css" media="screen"/>
+    <script type="text/javascript" src="http://mbostock.github.com/d3/d3.js"></script>
+    <script type="text/javascript" src="cal-heatmap.min.js"></script>
+</head>
+<body>
+    <p><a href="sample.html">Go to CSV sample</a></p>
+    <div id="cal-heatmap"></div>
+    <script type="text/javascript">
+        var calendar = new CalHeatMap();
+        calendar.init({
+            data: "d3_data.json",
+            start: new Date(2014, 0),
+            id : "graph_f",
+            domain : "month",
+            subDomain : "hour",
+            rowLimit : 24,
+            scale: [1,1,2,2],
+            range : 3,
+            cellSize: 8,
+            cellpadding: 1
+        });
+    </script>
+</body>
+</html>

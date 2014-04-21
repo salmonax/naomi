@@ -1,7 +1,84 @@
 !!! 5
 %html
   %head
-    %meta{charset:"UTF-8"}
-    %title a bunch of shit
-  %body
-    %h1 Hello dude! Congrats on using HAML with Sinatra!
+    %title Lotsa Testa
+    %link{rel: "stylesheet",
+          href:"//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css"}
+    %link{rel: "stylesheet",
+          type: "text/css",
+          href: "/stylesheets/cal-heatmap.css",
+          media: "screen"}
+    %link{rel: "stylesheet",
+           href: "/stylesheets/naomi.css",
+           media: "screen"}
+
+
+    %script{src:"http://code.jquery.com/jquery-1.9.1.js"}
+    %script{src:"http://code.jquery.com/ui/1.10.4/jquery-ui.js"}
+    %script{src:"http://d3js.org/d3.v3.min.js"}
+    %script{src:"/javascripts/cal-heatmap.min.js"}
+    %script{src:"/javascripts/ace.js"}
+    %script{src:"/javascripts/jquery.tinytimer.js"} 
+    %script{src:"/javascripts/naomi.js"}
+   
+  .off-canvas-wrap{ "data-offcanvas" => ""}
+
+  %nav.tab-bar
+    %section.left-small
+      %a.left-off-canvas-toggle.menu-icon{href: "#"}
+        %span
+    %section.middle.tab-bar-section
+      %h1.title Project Mandlebrot
+
+
+  #meter-dash.draggable.bk-charcoal
+    %h1.mk-fuschia Here is where a timer goes.
+    %h1.mk-lime 
+      Time remaining: 
+      %span#timer
+    
+    
+  #editor.draggable.bk-dark-grey
+    var x = "All this is syntax highlighted";
+    return x;
+
+
+  #cal-heatmap.draggable.bk-white
+
+
+  %p#chart.draggable
+
+
+    #tabs.draggable
+      %ul
+        %li
+          %a{href: "#tabs-1"}Day
+        %li
+          %a{href: "#tabs-2"}Month
+        %li 
+          %a{href: "#tabs-3"} Year
+      #tabs-1
+        %p
+          %input#amount{type: "text", readonly: true}
+        #slider-range-max
+        #eq.center
+          %span 
+          %span 2
+          %span 3
+          %span 4
+          %span 5
+          %span 6
+          %span 8
+          %span 9
+          %span 10
+          %span 11
+          %span 12
+          %span 12
+          
+      #tabs-2
+        %p Hey there, I see you've been clicking around.
+      #tabs-3
+        %p So here is the thing mang, you gotsta shows up is all. You got all the way to the third tab!
+        
+
+
