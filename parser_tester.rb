@@ -7,6 +7,8 @@ require './lib/meter'
 require 'json'
 require 'yomu'
 require 'pp'
+require 'fuzzy_match'
+# require 'openlibrary'
 
 pom_sheet_path = "/home/salmonax/Dropbox/2014 Pomodoro.txt"
 

@@ -1,3 +1,20 @@
+# class PomSheetLine
+#   def initialize(line)
+
+#   end
+
+#   def skippable?
+#   end
+
+#   def breakable?
+#   end
+
+#   def tag_labeler?
+#   end
+
+# end
+
+
 class PomParser
   attr_reader :tasks, :days, :full, :total, :jots, :tag_labels, :targets
 
@@ -12,7 +29,7 @@ class PomParser
     @mid_intervals = %w|January February March April May June July August September October November December|
     @big_intervals = %w| Beginning Middle End |
     @targets = init_targets_hash
-  
+    @abbreviations = {}
     build_tasks
   end
 
@@ -42,12 +59,27 @@ class PomParser
         @tasks << task
         sum_categories_and_tags(task)
         book = extract_book(task)
-        if book    
-          @full[:books].merge!(book) { |k,v1,v2| v1+v2 }
-        end
+        @full[:books].merge!(book) { |k,v1,v2| v1+v2 } if book
       end
     end
+    merge_books_acronyms!
+    #fuzzy match would go here
     @full[:sum] = @full[:tags][:sum] + @full[:categories][:sum]
+  end
+
+  def merge_books_acronyms!
+    books_hash = @full[:books]
+    new_hash = books_hash.clone
+    books_hash.each do |key, value|
+      next if key == :sum 
+      title, acronym = key.split(/\s?[\(\)]/)
+      if acronym 
+        new_hash[title] = new_hash[acronym]+value
+        new_hash.delete(key)
+        new_hash.delete(acronym)
+      end
+    end
+    @full[:books] = new_hash
   end
 
   def task?(line)
@@ -72,7 +104,6 @@ class PomParser
     elsif @mid_intervals.include?(time_period)
       @targets[:months][time_period] = target
     end
-    # p @targets
   end
 
   private 
@@ -83,19 +114,6 @@ class PomParser
       @targets[:months][month] = @targets[:arcs][arc]
     end
   end
-
-  # -- Might need this for something else --
-  # def init_targets_hash 
-  #   targets = {}
-  #   @big_intervals.each_with_index do |big_interval, i|
-  #     hash_per_third = {}
-  #     @mid_intervals[(i+1)*3-1..(i+1)*3+2].each do |month|
-  #       hash_per_third.merge!({month => 0})
-  #     end
-  #     targets.merge!({ big_interval => hash_per_third })
-  #   end
-  #   targets
-  # end
 
   def init_targets_hash 
     targets = { arcs: {}, months: {} }
@@ -116,8 +134,8 @@ class PomParser
     category_totals_hash = @days[current_date][:categories]
     @days[current_date][:poms] += task_poms #tally all task poms
     task.properties[:tags].each do |tag|
-      # tag_branch_label = get_label(tag[0])
-      # tag_leaf_label = get_modality(tag)
+      tag_branch_label = get_label(tag[0])
+      tag_leaf_label = get_modality(tag)
       tag_branch_label = tag[0]
       tag_leaf_label = tag
 
@@ -150,11 +168,9 @@ class PomParser
         book_title << word
       else
         break
-        # return book_title.reverse.join(' ')
       end
     end
-    if prepositions.include?(book_title.last) or
-      book_title.last =~ /[rR]ead/
+    if prepositions.include?(book_title.last) or book_title.last =~ /[rR]ead/
       book_title.pop
     end
     book_title.reverse.join(' ')
@@ -183,12 +199,9 @@ class PomParser
     elsif task_name =~ read
       unless task_name =~ just_reading_around
         book = task_name.rpartition(read).last.strip
-        # book = nil unless book[0].upcase == book[0]
         no_lowers = true
         book.split(' ').each do |word|
           if word[0] =~ /[a-z]/ and !prepositions.include?(word)
-            # p book
-            # p "#{word[0].downcase} and #{word[0]}"
             no_lowers = false 
             break
           end
@@ -201,8 +214,8 @@ class PomParser
         end
       end
     end
-    #remember: case to search categories for book titles that already exist!
-    hash = { book => task_poms } if book
+    #REMEMBER: case to search categories for book titles that already exist!
+    hash = { book => task_poms }  if book
   end
 
   def get_label(tag)
@@ -210,7 +223,7 @@ class PomParser
     return label.nil? ? tag : label
   end
 
-  def get_modality(tag) #will be settable fromsheet
+  def get_modality(tag) #will be settable from pomsheet
     tag.length == 1 ? "Reading" : "Practice"
   end
 

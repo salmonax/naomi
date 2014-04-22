@@ -14,4 +14,5 @@ gem 'thin'
 gem 'haml'
 gem 'dropbox-sdk'
 gem 'json'
-
+gem 'fuzzy_match'
+gem 'openlibrary'
