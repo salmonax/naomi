@@ -12,14 +12,18 @@ describe PomParslier do
   let(:task_with_soft_time_estimate) { "6 Start implementing business logic at getrich.io (X)(X)(X)X"}
   let(:task_with_hard_time_limit) {"9.5 Eat as much food as possible [X]XX"}
 
-  let(:basic_raw_data) {  }
+  let(:basic_raw_data) { [date_line, task_basic] 
+
+  }
+
   def basic_file(*args)
     puts date_line
+    puts "hello"
     puts task_basic
     args ||= [date_line, task_basic]
   end 
 
-  let(:parser) { PomParslier.new(fake_file) }
+  let(:parser) { PomParslier.new(basic_raw_data) }
 
   context "#initialize" do
     it "initializes an instance of class PomParslier" do

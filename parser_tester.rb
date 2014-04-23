@@ -49,14 +49,34 @@ end
 
 
 
+
+
+
 # ---- Journal Side-Project Stuff ----
 # journal_loc = "/home/salmonax/Dropbox/Journal 2013.doc"
 # journal = Yomu.new(journal_loc)
 # p journal.text.scan(/January\s\d*\,.*\n/).each { |line| p line }
 
 
-pp pom_parser.full[:books]
+# pp pom_parser.full[:books]
 # treemap = Treemap.new(pom_parser.full)
 # pp treemap.full
 
 # pom_sheet_path = "/home/salmonax/Dropbox/2014 Pomodoro.txt"
+
+category_definitions = ["PomParsley: Categories: Build Hash", "PomParsley: Refactor"]
+flat = { "PomParsley" => 10, "Categories" => 5, "Refactor" => 4, "Codepen" => 15, "Books" => 5}
+nested = { "PomParsley" => { "Categories" => {"Build Hash" => 0}, "Refactor" => 0}, "Codepen" => 0} 
+
+#PomParsley
+#  Categories
+#    Build Hash
+#  Refactor
+#CodePen
+
+to_be_nested = {}
+
+
+
+# puts "CORRECT:    #{nestle_flat_hash(flat,nested)}"
+# puts "FROM ARRAY: #{nestle_array(category_definitions,to_be_nested)}"

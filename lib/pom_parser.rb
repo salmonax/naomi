@@ -1,20 +1,3 @@
-# class PomSheetLine
-#   def initialize(line)
-
-#   end
-
-#   def skippable?
-#   end
-
-#   def breakable?
-#   end
-
-#   def tag_labeler?
-#   end
-
-# end
-
-
 class PomParser
   attr_reader :tasks, :days, :full, :total, :jots, :tag_labels, :targets
 
@@ -30,10 +13,9 @@ class PomParser
     @big_intervals = %w| Beginning Middle End |
     @targets = init_targets_hash
     @abbreviations = {}
+    @category_schema = {}
     build_tasks
   end
-
-  private
 
   def build_tasks
     line_array = []
@@ -48,6 +30,8 @@ class PomParser
       if is_date?(line) #set date on each date line
         current_date = line
         @days.merge!({ current_date => { poms: 0, tags: {}, categories: {} } })
+      elsif category_nester?(line)
+        merge_to_category_hash(line,@category_schema)
       elsif jottable?(line)  
         jot_down(line)
       elsif tag_label?(line)
@@ -65,6 +49,13 @@ class PomParser
     merge_books_acronyms!
     #fuzzy match would go here
     @full[:sum] = @full[:tags][:sum] + @full[:categories][:sum]
+    # p @category_schema
+    p nestle_flat_hash(@full[:categories],@category_schema)
+    # p @full[:categories]
+  end
+
+  def category_nester?(line)
+    line =~ /^[a-zA-Z\s].*:/ and line.split(' ')[-1] != '()' # kludgy undone-task check
   end
 
   def merge_books_acronyms!
@@ -92,6 +83,30 @@ class PomParser
   def monthly_target?(line)
     (@big_intervals+@mid_intervals).include? line.split(' ').first
   end
+  def skippable?(line)
+    #skip empty, dashed lines, and break indicators
+    line.split(" ")[0].nil? or
+    line =~ %r{^--} or  
+    line.split(" ")[0].upcase == "BREAK"
+    #in future: break lines will take the previous end-time as start time and end 30 minutes later
+  end
+  def tag_label?(line)
+    command = line.split(" ")[0]
+    command.size == 1 and command !~ /[0-9]/
+  end
+
+  def jottable?(line) #quick and dirty check. Parantheses will be optional, like Ruby
+    line.split(" ")[1][0] == "(" and line.split(" ")[-1][-1] == ")"
+  end
+
+  def breakable?(line)
+    #break on //--
+    line[0..3] == "//--"
+  end
+
+  def is_date?(line)
+    line =~ %r|.*/.*/.*|
+  end
 
 
   def define_monthly_target(line)
@@ -105,8 +120,6 @@ class PomParser
       @targets[:months][time_period] = target
     end
   end
-
-  private 
 
   def define_monthlies_from_arc(arc)
     i = @big_intervals.index(arc)
@@ -134,8 +147,8 @@ class PomParser
     category_totals_hash = @days[current_date][:categories]
     @days[current_date][:poms] += task_poms #tally all task poms
     task.properties[:tags].each do |tag|
-      tag_branch_label = get_label(tag[0])
-      tag_leaf_label = get_modality(tag)
+      # tag_branch_label = get_label(tag[0])
+      # tag_leaf_label = get_modality(tag)
       tag_branch_label = tag[0]
       tag_leaf_label = tag
 
@@ -227,20 +240,11 @@ class PomParser
     tag.length == 1 ? "Reading" : "Practice"
   end
 
-  def tag_label?(line)
-    command = line.split(" ")[0]
-    command.size == 1 and command !~ /[0-9]/
-  end
-
   def define_tag_label(line)
     target_hash = @tag_labels
     target_key = line.split(' ')[0]
     value = line.split(' ')[1..-1].join(' ')
     add_to_key(target_hash, target_key, value)
-  end
-
-  def jottable?(line) #quick and dirty check. Parantheses will be optional, like Ruby
-    line.split(" ")[1][0] == "(" and line.split(" ")[-1][-1] == ")"
   end
 
   def jot_down(line) #also quick and dirty; breaks with extra parentheses
@@ -254,21 +258,85 @@ class PomParser
     target_hash.merge!({ target_key => value }) { |k, old_v, new_v| old_v + new_v }
   end
 
-  def skippable?(line)
-    #skip empty, dashed lines, and break indicators
-    line.split(" ")[0].nil? or
-    line =~ %r{^--} or  
-    line.split(" ")[0].upcase == "BREAK"
-    #in future: break lines will take the previous end-time as start time and end 30 minutes later
+## BEGIN array nestling module
+## USAGE:
+##     #nestle_array(category_definitions,to_be_nested) spits out a nested hash. 
+##     #merge_to_category_hash for single lines
+##     #nestle_flat_hash will map a flat hash onto a nested hash of a given key structure, adding numerical values
+
+  def nestle_array(array,nested)
+    array.each do |line|
+      merge_to_category_hash(line,nested)
+    end
+    nested
   end
 
-  def breakable?(line)
-    #break on //--
-    line[0..3] == "//--"
+  def merge_to_category_hash(line,nested)
+    categories = line.split(/\s?:\s?/)
+    to_merge = {}
+    categories.each_with_index do |category, i|
+
+      target_key = categories[i]
+      new_value = categories[i+1] ? categories[i+1] : 0
+
+      deep_merge_add(nested, target_key, new_value)
+    end
   end
 
-  def is_date?(line)
-    line =~ %r|.*/.*/.*|
+  def deep_merge_add(nested,target_k,new_v) #this is used build a nested hash from scratch
+    new_v = {new_v => 0} if new_v.class == String
+    if hash_has_key?(nested,target_k)
+      if nested.keys.include?(target_k)
+        if nested[target_k].class == Hash
+          nested[target_k].merge!(new_v)
+        else
+          nested[target_k] = new_v
+        end
+      else
+        nested.each do |k,v|
+          deep_merge_add(v,target_k,new_v) if v.class == Hash
+        end
+      end
+    else
+      nested.merge!({target_k => new_v})
+    end
+  end
+
+  def hash_has_key?(hash,key)
+    if hash.keys.include?(key)
+      return true
+    else
+      hash.each do |k,v|
+        return hash_has_key?(v,key) if v.class == Hash
+      end
+    end
+    false
+  end
+
+  def nestle_flat_hash(flat,nested)
+    flat.each { |k,v| merge_at_key(nested,k,v) }
+    return nested
+  end
+
+  def merge_at_key(nested,target_k,new_v) #this is for restructuring a flat hash to nested
+    if hash_has_key?(nested,target_k)
+      if nested.keys.include?(target_k) 
+        if nested[target_k].class != Hash 
+          nested.merge!({target_k => new_v}) { |k,v1,v2| v1+v2 }
+        else #if v is hash, it means the key has children, so add a "Misc" category for top-level category activity
+          extant_values = nested[target_k].values.inject(:+)
+          nested[target_k].merge!({"Misc" => new_v-extant_values}) { |k,v1,v2| v1+v2 }
+          
+        end
+      else
+        nested.each do |k,v|
+          merge_at_key(v,target_k,new_v) if v.class == Hash
+        end
+      end
+    else
+      # nested.merge!({target_k => new_v})
+    end
   end
 
 end
+

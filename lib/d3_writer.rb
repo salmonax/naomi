@@ -23,7 +23,8 @@ class D3writer
 
   def write_area_chart
     points = []
-    all_tags = @parser.full[:tags].keys-[:sum]+["None"]
+    # all_tags = @parser.full[:tags].keys-[:sum]+["None"]
+    all_tags = ["None","R","RR"]
     @parser.days.each do |k,v|
       point_hash = { "date" => k }
       all_tags.each do |tag|

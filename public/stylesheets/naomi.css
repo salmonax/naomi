@@ -1,14 +1,48 @@
-/*.resizable { width: 150px; height: 150px; padding: 0.5em; }*/
+/* BEGIN Area Chart */
+
+#area {
+  position: absolute;
+  left: 40%;
+  top: 20px;
+  width: 920px;
+  height: 150px;
+}
+
+
+body {
+      font: 9px sans-serif;
+      color: #121401;
+    }
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #121401;
+  stroke-width: 2px;
+  shape-rendering: crispEdges;
+}
+.point {
+  stroke: grey;
+  stroke-width: 1px;
+  opacity: 0;
+}
+.point:hover{
+  opacity: .5;
+}
+
+/* END Area Chart */
+
+
 
 #editor { 
     font-size: 12px;
     font-family: monospace;
     position: absolute;
-    top: 20px;
+    top: 200px;
     right: 0;
     bottom: 0;
-    left: 50%;
+    left: 45%;
     width: 750px;
+    height: 400px;
 }
 
 #meter {

@@ -2,7 +2,9 @@ source 'https://rubygems.org'
 
 
 group :development, :test do
+  # gem 'rspec'
   gem 'guard-livereload'
+  # gem 'guard-rspec', require: false
   gem 'rack-livereload'
   gem 'sinatra-contrib'
 end
