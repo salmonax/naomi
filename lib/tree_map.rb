@@ -11,16 +11,28 @@ class Treemap
       "children" => build_nodes(@source_hash) }
   end
 
+  def recursive_sum(hash)
+    total = 0
+    hash.each do |k,v|
+      unless v.class == Hash
+        total += v
+      else 
+        total += recursive_sum(v)
+      end
+    end
+    total
+  end
+
   def build_nodes(hash)
     leaf_array = []
     hash.each do |k,v|
-      next if k == :sum
       key_hash = { "name" => k.to_s }
       unless v.class == Hash
         key_hash["name"] = key_hash["name"] + " (#{v/2.0} hours)"
         value_hash =  { "value" => v }
       else
-        sum = v[:sum]
+        sum = recursive_sum(v)
+
         key_hash["name"] = key_hash["name"] + " (#{sum/2.0} hours)"
         value_hash = { "children" => build_nodes(v) }
       end

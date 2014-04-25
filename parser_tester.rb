@@ -59,8 +59,8 @@ end
 
 
 # pp pom_parser.full[:books]
-# treemap = Treemap.new(pom_parser.full)
-# pp treemap.full
+treemap = Treemap.new(pom_parser.full)
+treemap.full
 
 # pom_sheet_path = "/home/salmonax/Dropbox/2014 Pomodoro.txt"
 

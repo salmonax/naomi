@@ -30,10 +30,10 @@ class PomParser
       if is_date?(line) #set date on each date line
         current_date = line
         @days.merge!({ current_date => { poms: 0, tags: {}, categories: {} } })
-      elsif category_nester?(line)
-        merge_to_category_hash(line,@category_schema)
       elsif jottable?(line)  
         jot_down(line)
+      elsif category_nester?(line)
+        merge_to_category_hash(line,@category_schema)
       elsif tag_label?(line)
         define_tag_label(line)
       elsif monthly_target?(line)
@@ -48,10 +48,24 @@ class PomParser
     end
     merge_books_acronyms!
     #fuzzy match would go here
-    @full[:sum] = @full[:tags][:sum] + @full[:categories][:sum]
-    # p @category_schema
-    p nestle_flat_hash(@full[:categories],@category_schema)
-    # p @full[:categories]
+    p @category_schema
+    p @full[:nested] = nestle_flat_hash(@full[:categories],@category_schema)
+    @full[:categories] = divide_in_three(@full[:categories])
+    @full[:books] = divide_in_three(@full[:books])
+  end
+
+  def divide_in_three(hash)
+    sorted_array = hash.sort_by { |key, value| value}.reverse
+    total = hash.values.inject(:+)
+    top_level_names = ["Primary","Secondary","Tertiary"]
+    new_hash = {}
+    tally = 0
+    triad = sorted_array.size/3
+    sorted_array.each_with_index do |item, i| 
+      new_hash[top_level_names[[i-1,0].max/triad]] ||= {}
+      new_hash[top_level_names[[i-1,0].max/triad]].merge!({item[0] => item[1]})
+    end
+    new_hash
   end
 
   def category_nester?(line)
@@ -62,7 +76,6 @@ class PomParser
     books_hash = @full[:books]
     new_hash = books_hash.clone
     books_hash.each do |key, value|
-      next if key == :sum 
       title, acronym = key.split(/\s?[\(\)]/)
       if acronym 
         new_hash[title] = new_hash[acronym]+value
@@ -156,19 +169,10 @@ class PomParser
 
       @full[:tags][tag_branch_label] = {} if @full[:tags][tag_branch_label].nil? #for nesting
       add_to_key(@full[:tags][tag_branch_label],tag_leaf_label,task_poms)
-
-      @full[:tags][tag_branch_label][:sum] = 0 if @full[:tags][tag_branch_label][:sum].nil?
-      @full[:tags][tag_branch_label][:sum] += task_poms
-
-      @full[:tags][:sum] = 0 if @full[:tags][:sum].nil?
-      @full[:tags][:sum] += task_poms
     end
 
     add_to_key(category_totals_hash,task.properties[:category],task_poms) #-> maybe add support for multiple, later
     add_to_key(@full[:categories],task.properties[:category],task_poms)
-
-    @full[:categories][:sum] = 0 if @full[:categories][:sum].nil?
-    @full[:categories][:sum] += task_poms
 
     @total += task_poms
   end
@@ -219,12 +223,7 @@ class PomParser
             break
           end
         end
-        unless no_lowers
-          book = nil
-        else
-          @full[:books][:sum] = 0 if @full[:books][:sum].nil?
-          @full[:books][:sum] += task_poms
-        end
+        book = nil unless no_lowers
       end
     end
     #REMEMBER: case to search categories for book titles that already exist!
@@ -274,6 +273,7 @@ class PomParser
   def merge_to_category_hash(line,nested)
     categories = line.split(/\s?:\s?/)
     to_merge = {}
+    puts "#{line}"
     categories.each_with_index do |category, i|
 
       target_key = categories[i]
@@ -283,9 +283,18 @@ class PomParser
     end
   end
 
-  def deep_merge_add(nested,target_k,new_v) #this is used build a nested hash from scratch
+  def deep_merge_add(nested,target_k,new_v,top=true) #this is used build a nested hash from scratch, using an array
+    if target_k == "PomParsley" 
+      puts "#{target_k} => #{new_v} MERGES INTO #{nested}"
+    end
+
+    if target_k == "PomParsley" and nested == {"Blender Class"=>0, "Corgi"=>0}
+      puts "YOU FOUND ME! I'm about to do a very bad THING!"
+   # only merge if it's at the top level!!!
+    end
     new_v = {new_v => 0} if new_v.class == String
     if hash_has_key?(nested,target_k)
+      puts "I have the key!"
       if nested.keys.include?(target_k)
         if nested[target_k].class == Hash
           nested[target_k].merge!(new_v)
@@ -294,12 +303,19 @@ class PomParser
         end
       else
         nested.each do |k,v|
-          deep_merge_add(v,target_k,new_v) if v.class == Hash
+          deep_merge_add(v,target_k,new_v,false) if v.class == Hash
         end
       end
     else
-      nested.merge!({target_k => new_v})
+
+        if top 
+          puts "I don't have the key and IMA MERGE ANYWAY!"
+          nested.merge!({target_k => new_v}) 
+        end
     end
+    # if target_k == "PomParsley" 
+    #   puts "!! #{target_k} => #{new_v} NOW IN #{nested}"
+    # end
   end
 
   def hash_has_key?(hash,key)
@@ -324,8 +340,14 @@ class PomParser
         if nested[target_k].class != Hash 
           nested.merge!({target_k => new_v}) { |k,v1,v2| v1+v2 }
         else #if v is hash, it means the key has children, so add a "Misc" category for top-level category activity
-          extant_values = nested[target_k].values.inject(:+)
-          nested[target_k].merge!({"Misc" => new_v-extant_values}) { |k,v1,v2| v1+v2 }
+
+          # NOTE: commented code erroneously subtracts value
+
+          # extant_values = nested[target_k].values.inject(:+)
+          # nested[target_k].merge!({"Misc" => new_v-extant_values}) { |k,v1,v2| v1+v2 }
+          
+          nested[target_k].merge!({"Misc" => new_v}) { |k,v1,v2| v1+v2 }
+          
           
         end
       else
@@ -334,9 +356,8 @@ class PomParser
         end
       end
     else
-      # nested.merge!({target_k => new_v})
+      nested.merge!({target_k => new_v})
     end
   end
 
 end
-
