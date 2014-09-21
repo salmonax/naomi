@@ -1,0 +1,53 @@
+%head
+    %link{rel: "stylesheet", href: "stylesheets/cal-heatmap.css"}
+    %script{src:"/javascripts/d3.js"}
+    %script{src:"/javascripts/cal-heatmap.min.js"}
+%body
+    #cal-heatmap
+
+:javascript
+    var beginning = new CalHeatMap();
+    var middle = new CalHeatMap();
+    var end = new CalHeatMap();
+    beginning.init({
+        data: "/d3/heatmap",
+        start: new Date(2014, 0),
+        id : "graph_f",
+        domain : "month",
+        subDomain : "hour",
+        rowLimit : 24,
+        scale: [1,1,2,2],
+        range : 12,
+        cellSize: 7,
+        cellpadding: 1,
+        displayLegend: false,
+        highlight: "now"
+    });
+    middle.init({
+        data: "/d3/heatmap",
+        start: new Date(2014, 4),
+        id : "graph_g",
+        domain : "month",
+        subDomain : "hour",
+        rowLimit : 24,
+        scale: [1,1,2,2],
+        range : 4,
+        cellSize: 7,
+        cellpadding: 1,
+        displayLegend: false,
+        highlight: "now"
+    });
+    end.init({
+        data: "/d3/heatmap",
+        start: new Date(2014, 8),
+        id : "graph_h",
+        domain : "month",
+        subDomain : "hour",
+        rowLimit : 24,
+        scale: [1,1,2,2],
+        range : 4,
+        cellSize: 7,
+        cellpadding: 1,
+        displayLegend: false,
+        highlight: "now"
+    });

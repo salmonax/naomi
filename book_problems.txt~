@@ -1,0 +1,79 @@
+7/14/2014
+
+# Improperly pulls whole line as book title.
+4	& Start Reading: Capital in the 21st Century, on history of inequality inquiry	X
+
+# Same as above. (Fixed in file with ->, but should still stop before 6%)
+12 	& Start Reading: Cypherpunks, 6%, on the watchman's call, author biographies	X
+
+7/9/2014
+
+# Full line.
+20	& Start Reading: Abundance, on aluminum scarcity-to-ubiquity, overpopulation	X
+
+7/3/2014
+
+# False positive, yielding '!)'.
+17	&ww! Write: publish first Medium.com article on time design (not proof-read!)  XX
+
+5/4/2014
+
+# False positive due to stupid fuzzy detection.
+14.5	&D Ubuntu: recover boot partition from XenClient, read NaNo	X
+
+4/4/2014
+
+# Includes "Read." Should probably be a false positive in new scheme. Fixed in file.
+7	&C Read Coders at Work -> ?/2					X
+
+4/3/2014
+
+# Bizarre false positive fom fuzzy detection. Not fixed.
+5	$RR Noodlethrough: discover HAML, Sinatra Up and Running -> 27/?		XX
+
+3/27/2014
+
+# Badly formatted syntax from old scheme. Not fixed. 
+6.5	$R Read more Eloquent Ruby -> 32/?						X
+
+# Everything after "Workthrough" shows up as title.
+22.5	$WWR Workthrough: Re-read and continue SEL HTML 5 -> 25%/8		X
+
+3/26/2014
+
+# Erronous full line before ->. Probably just poor syntax. Not fixed.
+1.5	$RR Figure out where I left off in Agile Rails -> 72/10		X
+
+# Same as above.
+6	$RR Use "turn" gem for colors, more Agile Rails -> 83/15	X
+
+# NOTE: many false negatives due to syntax on this date, not yet fixed!
+
+3/22/2014
+
+# Another shitty syntax false-positive from fuzzy detection
+23.5	$R Read Design Patterns Ruby -> ?/16				X
+
+3/15/2014
+
+# More false positives, but could also be used for (RPL) abbreviation syntax.
+13	$R Read RPL						X
+16.5	$R Read RPL						X
+
+2/8/2014
+
+# Bad syntax so far, but example of defining abbreviation syntax.
+5	R$ Read The Ruby Programming Language (RPL)	X
+
+1/29/2014
+
+# Example of using an alternate to "Read" as a reading marker, combined with 
+10	PDR: DB X
+
+1/15/2014
+
+# Fictional line definining both the Read-alternative definition and the title alias
+
+10	Read: Daily Borderline (DB)	X
+
+

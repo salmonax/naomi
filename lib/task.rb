@@ -32,13 +32,13 @@ class Task
       tags = task[0]
       task = task[1..-1]
     else
-      tags = 'None'
+      tags = 'Untagged'
     end
     poms = task.pop.gsub(%r{\(|\)},'').length
     pom_time = poms/2.0
     end_time = make_time_string(time_num_float+pom_time)
     task = task.join(' ').split(': ')
-    category = task.length == 1 ? "None" : task[0]
+    category = task.length == 1 ? "Uncategorized" : task[0]
     task = task.length == 1 ? task[0] : task[1]
     task = task.gsub('"','') if task
     task_hash = { date: date, 
@@ -47,10 +47,12 @@ class Task
                   tags: parse_tags(tags), 
                   category: category,
                   task: task, 
-                  poms: poms  
+                  poms: poms,
+                  output: outputness(tags)*poms
                 }
-  end
 
+  end
+  
   def is_tag?(string)
     (string.include?('&') || string.include?('$') || string.upcase == string) && string != 'PDR' && string.include?(':') == false #REALLY shitty TAG check
   end
@@ -58,6 +60,10 @@ class Task
   def parse_tags(tags)
     return *tags if tags == 'None'
     tags.scan(/./).uniq.map { |tag| tag*tags.count(tag)}
+  end
+
+  def outputness(tags)
+    (tags.length > tags.split('').uniq.length) ? 1 : 0
   end
 
   def make_time_string(time_num_float)

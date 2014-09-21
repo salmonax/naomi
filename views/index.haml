@@ -19,14 +19,20 @@
     %script{src:"/javascripts/ace/ace.js"}
 
   %body
-    %p#chart.draggable
-
     #meter.draggable.bk-charcoal.mk-fuschia
       %h1=meter
 
+    #chart.draggable
+
     #area.draggable.bk-grey
 
+    #area2.draggable.bk-grey
+
     #editor.resizable.draggable= pom_sheet
+
+    #monthlies.draggable.bk-charcoal.mk-fuschia
+      %h4=monthlies
+
 
     %script{src:"/javascripts/naomi.js"}
 

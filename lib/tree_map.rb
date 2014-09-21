@@ -28,12 +28,12 @@ class Treemap
     hash.each do |k,v|
       key_hash = { "name" => k.to_s }
       unless v.class == Hash
-        key_hash["name"] = key_hash["name"] + " (#{v/2.0} hours)"
+        key_hash["name"] = key_hash["name"] + "(#{v/2.0} hours)"
         value_hash =  { "value" => v }
       else
         sum = recursive_sum(v)
 
-        key_hash["name"] = key_hash["name"] + " (#{sum/2.0} hours)"
+        key_hash["name"] = key_hash["name"] + "(#{sum/2.0} hours)"
         value_hash = { "children" => build_nodes(v) }
       end
       leaf_array.push( key_hash.merge!(value_hash) )

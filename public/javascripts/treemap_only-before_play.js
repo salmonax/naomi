@@ -4,8 +4,8 @@
 
 
 
-var editor = ace.edit("editor");
-editor.setTheme("ace/theme/monokai");
+// var editor = ace.edit("editor");
+// editor.setTheme("ace/theme/monokai");
 
 $(function() {
   $( ".resizable" ).resizable();
@@ -19,8 +19,8 @@ $(function() {
 (function() {
 
 var margin = {top: 20, right: 0, bottom: 0, left: 0},
-    width = 600,
-    height = 400 - margin.top - margin.bottom,
+    width = 1550,
+    height = 750 - margin.top - margin.bottom,
     formatNumber = d3.format(",d"),
     transitioning;
 
@@ -38,7 +38,7 @@ var treemap = d3.layout.treemap()
     .ratio(height / width * 0.5 * (1 + Math.sqrt(5)))
     .round(false);
 
-var svg = d3.select("#chart").append("svg")
+var svg = d3.select("#chart2").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.bottom + margin.top)
     .style("margin-left", -margin.left + "px")
@@ -60,7 +60,7 @@ grandparent.append("text")
     .attr("y", 6 - margin.top)
     .attr("dy", ".75em");
 
-d3.json('/d3/treemap', function(root) {
+d3.json('/d3/treemap2', function(root) {
   initialize(root);
   accumulate(root);
   layout(root);

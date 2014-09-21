@@ -1,1 +1,4 @@
-25.5  PDR XX
+7/3/2014
+
+# False positive for extract_books
+17	&ww! Write: publish first Medium.com article on time design (not proof-read!)  XX
