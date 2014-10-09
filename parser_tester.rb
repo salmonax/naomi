@@ -9,9 +9,10 @@ require './lib/meter'
 
 
 require 'json'
-require 'yomu'
+require 'date'
+# require 'yomu'
 require 'pp'
-require 'fuzzy_match'
+# require 'fuzzy_match'
 # require 'openlibrary'
 
 pom_sheet_path = "/home/salmonax/Dropbox/2014 Pomodoro.txt"
@@ -23,7 +24,7 @@ csv_output = File.open(csv_output_path,"w")
 d3_output = File.open(d3_output_path,"w")
 
 poms_input = File.open(pom_sheet_path,"r")
-pom_parser = PomParser.new(poms_input, last:40)
+pom_parser = PomParser.new(poms_input)
 
 csv_writer = CSVwriter.new(pom_parser)
 d3_writer = D3writer.new(pom_parser)
@@ -64,8 +65,9 @@ csv_writer.write(csv_output)
 # p journal.text.scan(/January\s\d*\,.*\n/).each { |line| p line }
 
 # pp pom_parser.tag_labels
-pp pom_parser.days
-pp pom_parser.full 
+
+# pp pom_parser.days
+# pp pom_parser.full 
 
 treemap = Treemap.new(pom_parser.full)
 treemap.full[:categories]
@@ -87,3 +89,6 @@ to_be_nested = {}
 
 # puts "CORRECT:    #{nestle_flat_hash(flat,nested)}"
 # puts "FROM ARRAY: #{nestle_array(category_definitions,to_be_nested)}"
+
+
+pp D3writer.new(pom_parser).write_highstock

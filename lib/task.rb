@@ -32,13 +32,13 @@ class Task
       tags = task[0]
       task = task[1..-1]
     else
-      tags = 'Untagged'
+      tags = 'None'
     end
     poms = task.pop.gsub(%r{\(|\)},'').length
     pom_time = poms/2.0
     end_time = make_time_string(time_num_float+pom_time)
     task = task.join(' ').split(': ')
-    category = task.length == 1 ? "Uncategorized" : task[0]
+    category = task.length == 1 ? "None" : task[0]
     task = task.length == 1 ? task[0] : task[1]
     task = task.gsub('"','') if task
     task_hash = { date: date, 

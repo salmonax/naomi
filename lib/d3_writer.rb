@@ -44,22 +44,22 @@ class D3writer
 
         value_calculation = -((value[:poms]-value[:output]-value[:output]).to_f)
 
-        point_value = value_calculation
+        # point_value = value_calculation
 
-        # point_value = value[section.to_sym]
+        point_value = value[section.to_sym]
         
 
         points << [utc_date*1000,point_value]
 
       end
-      JSON.generate(points.reverse)
+      JSON.generate(points.sort)
   end
 
   def write_area_chart
     points = []
     # all_tags = @parser.full[:tags].keys+["None"]
     # all_tags = ["!","None","R","RR"]
-    all_tags = ["R","RR", "W","WW"]
+    all_tags = ["R","W"]
     @parser.days.each do |k,v|
       point_hash = { "date" => k }
       all_tags.each do |tag|

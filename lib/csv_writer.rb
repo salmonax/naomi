@@ -1,8 +1,8 @@
 class CSVwriter
   def initialize(parser,output=nil)
     @parser = parser
-    @header = "Date,Start Time,End Time,Tags,Category,Task,Poms"
-    @header_for_days = "Day,Date,Pom Total,$$ Pom,$ Pom,$$ Collected,R Pom,& Pom,Non-work income,Month,RR Pom,Flip,W Pom,WW Pom,H Pom,HH Pom\r\n"
+    @header = "Date;Start Time;End Time;Tags;Category;Task;Poms"
+    @header_for_days = "Day;Date;Pom Total;$$ Pom;$ Pom;$$ Collected;R Pom;& Pom;Non-work income;Month;RR Pom;Flip;W Pom;WW Pom;H Pom;HH Pom\r\n"
 
   end
 
@@ -14,7 +14,7 @@ class CSVwriter
 
   def write_for_days(output)
     @output = output
-    @output.puts(@header_for_days)
+    @output.puts(@header_for_days.gsub(';',','))
     pp @header_for_days
     # pp @parser.days.sort_by{|k,v| k}
     @parser.days.sort_by{|k,v| k.split('/').map { |element| element.rjust(2,"0") }.join('/') }.each do |day|
@@ -37,9 +37,10 @@ class CSVwriter
   private
 
   def write_line(task)
-    @output.puts "#{task.date},#{task.start_time},"\
-                  "#{task.end_time},#{task.tags.join},#{task.category},"\
-                  "\"#{task.task}\",#{task.poms},\r\n"
+    @output.puts "#{task.date};#{task.start_time};"\
+                  "#{task.end_time};#{task.tags.join};#{task.category};"\
+                  "\"#{task.task}\";#{task.poms};\r\n"
+
   end
 
 end

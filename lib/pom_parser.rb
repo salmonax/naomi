@@ -21,9 +21,35 @@ class PomParser
     @abbreviations = {}
     @category_schema = {}
     build_tasks
+    fill_days
   end
 
   include HashMagic
+
+  def fill_days
+    last_given_date = nil
+    empty_date = {
+      output: 0, 
+      poms: 0, 
+      tags: {"None" => 0}, 
+      categories: {"None" => 0}
+    }
+    @days.keys.reverse.each do |date_today|
+        terms = date_today.split('/').map { |e| e.to_i }
+        today_date = Date.new(terms[2],terms[0],terms[1])
+      if last_given_date
+        yesterday_date = today_date-1
+        if yesterday_date != last_given_date
+          (today_date-last_given_date-1).to_i.times do |offset|
+            new_string_date = (last_given_date+offset+1).strftime('%-m/%-d/%Y')
+            @days[new_string_date] = empty_date
+          end
+        end
+      end
+      last_given_date = today_date
+    end
+  end
+
 
   def full(range=@range)
     range[:start] = DateTime.new if !range[:start]
